@@ -1,4 +1,4 @@
-Hekmat Alrouh: SEM model of BMI/EA intergenerational transmission with multiple (6) offpsring per family (3male+3female)
+SEM model of BMI/EA intergenerational transmission with multiple (6) offpsring per family (3male+3female)
 This is the code used in the paper "Intergenerational Transmission of BMI and Educational Attainment in Adults" by Alrouh et al.
 
 
