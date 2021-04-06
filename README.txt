@@ -2,8 +2,6 @@ SEM model of BMI/EA intergenerational transmission with multiple (6) offpsring p
 This is the code used in the paper "Intergenerational Transmission of BMI and Educational Attainment in Adults" by Alrouh et al.
 
 
-MIT License
-
 Copyright (c) 2021 Hekmat Alrouh
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
