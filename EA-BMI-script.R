@@ -1267,9 +1267,11 @@ write.csv(inspect(fit1r, what="cor.all"), file = "model1_implied_correlation.csv
 # Sensitivity analysis
 
 #twindatab1545 is the data frame used for sensitivity analysis of excluding individuals with BMI <15 and >45
+twindatab1545 <- read.spss("EA-BMIfiltered1545.sav",to.data.frame = TRUE,use.value.labels = FALSE)
 fit1b1545<-sem(model1,data=twindatab1545, estimator="ML", missing="fiml.x")
 write.csv((parameterestimates(fit1b1545)), file = "parameterestimares1b1545.csv")
 
 #twindatanomz is the data frame used for sensitivity analysis of excluding individuals with BMI <15 and >45
+twindatanomz <- read.spss("EA-BMI_nomz.sav",to.data.frame = TRUE,use.value.labels = FALSE)
 fit1nomz<-sem(model1,data=twindatanomz, estimator="ML", missing="fiml.x")
 write.csv((parameterestimates(fit1nomz)), file = "parameterestimates1nomz.csv")
