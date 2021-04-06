@@ -8,12 +8,12 @@ library(lavaan)
 twindata <- read.spss("EA-BMI.sav",to.data.frame = TRUE,use.value.labels = FALSE)
 
 
-#model1r is the full model with separate coefficients by offpsring gender (b3m/b3f, b4m/b4f, etc..)
+#model1 is the full model with separate coefficients by offpsring gender (b3m/b3f, b4m/b4f, etc..)
 #0_1,0_2,0_10 = extensions for the three male offpsring
 #1_1,1_2,1_10 = extensions for the three female offspring
 #0_31 = fathers, 1_41 = mothers
 
-model1r<-'
+model1<-'
 BMI_0_1~b3m*EA_0_31+b4m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
 BMI_0_2~b3m*EA_0_31+b4m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
 BMI_0_10~b3m*EA_0_31+b4m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
@@ -52,7 +52,7 @@ EA_1_2~~v4*EA_1_2
 EA_1_10~~v4*EA_1_10
 '
 
-fit1r<-sem(model1r,data=twindata, estimator="ML", missing="fiml.x")
+fit1r<-sem(model1,data=twindata, estimator="ML", missing="fiml.x")
 summary(fit1r,fit.measures=TRUE,standardized=TRUE)
 sink("output-genst-3m3f-m1r.txt")
 print(summary(fit1r,fit.measures=TRUE,standardized=TRUE))
