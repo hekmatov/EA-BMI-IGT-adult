@@ -1,17 +1,19 @@
-# Hekmat Alrouh: SEM model of BMI/EA intergenerational transmission with multiple (6) offspring per family (3male+3female)
+# Hekmat Alrouh: SEM model of BMI/EA intergenerational transmission with multiple (up to 6) offspring per family (3 sons + 3 daughters)
 
 rm(list=ls())
 library(foreign)
 library(lavaan)
 
+
 #twindata is the dataframe used for the main analyses of the study
 twindata <- read.spss("EA-BMI.sav",to.data.frame = TRUE,use.value.labels = FALSE)
 
 
-#model1 is the full model with separate coefficients by offpsring gender (b3m/b3f, b4m/b4f, etc..)
-#0_1,0_2,0_10 = extensions for the three male offpsring
+#model1 is the full model with separate coefficients by offspring gender (b3m/b3f, b4m/b4f, etc..)
+#0_1,0_2,0_10 = extensions for the three male offspring
 #1_1,1_2,1_10 = extensions for the three female offspring
 #0_31 = fathers, 1_41 = mothers
+
 
 model1<-'
 BMI_0_1~b3m*EA_0_31+b4m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
@@ -53,10 +55,13 @@ EA_1_10~~v4*EA_1_10
 '
 
 fit1r<-sem(model1,data=twindata, estimator="ML", missing="fiml.x")
+
 summary(fit1r,fit.measures=TRUE,standardized=TRUE)
+
 sink("output-genst-3m3f-m1r.txt")
 print(summary(fit1r,fit.measures=TRUE,standardized=TRUE))
 sink()
+
 
 #model1s is used to generate observed covariances/correlations while constraining same gender offspring to have the same parameters
 model1s<-'
@@ -183,7 +188,9 @@ sink("output-genst-3m3f-m1eallr.txt")
 print(summary(fit1eallr,fit.measures=TRUE,standardized=TRUE))
 sink()
 
+
 anova(fit1r,fit1eallr)
+
 
 #model1ee3r: testing constraint e3m==e3f
 model1ee3r<-'
@@ -360,6 +367,7 @@ fit1ee6r<-sem(model1ee6r,data=twindata, estimator="ML", missing="fiml.x")
 
 summary(fit1ee6r,fit.measures=TRUE,standardized=TRUE)
 
+
 model1eb3r<-'
 BMI_0_1~b3*EA_0_31+b4m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
 BMI_0_2~b3*EA_0_31+b4m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
@@ -403,6 +411,7 @@ fit1eb3r<-sem(model1eb3r,data=twindata, estimator="ML", missing="fiml.x")
 
 summary(fit1eb3r,fit.measures=TRUE,standardized=TRUE)
 
+
 model1eb4r<-'
 BMI_0_1~b3m*EA_0_31+b4*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
 BMI_0_2~b3m*EA_0_31+b4*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
@@ -445,6 +454,7 @@ EA_1_10~~v4*EA_1_10
 fit1eb4r<-sem(model1eb4r,data=twindata, estimator="ML", missing="fiml.x")
 
 summary(fit1eb4r,fit.measures=TRUE,standardized=TRUE)
+
 
 model1eb5r<-'
 BMI_0_1~b3m*EA_0_31+b4m*EA_1_41+b5*BMI_0_31+b6m*BMI_1_41
@@ -534,7 +544,6 @@ fit1eb6r<-sem(model1eb6r,data=twindata, estimator="ML", missing="fiml.x")
 summary(fit1eb6r,fit.measures=TRUE,standardized=TRUE)
 
 
-
 model1ec1r<-'
 BMI_0_1~b3m*EA_0_31+b4m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
 BMI_0_2~b3m*EA_0_31+b4m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
@@ -591,9 +600,6 @@ anova(fit1r,fit1eb6r)
 anova(fit1r,fit1ec1r)
 
 
-
-
-
 #model1repar is for omnibus test of constraining coefficients to be equal across parents
 model1repar<-'
 BMI_0_1~b3m*EA_0_31+b3m*EA_1_41+b5m*BMI_0_31+b5m*BMI_1_41
@@ -637,7 +643,7 @@ EA_1_10~~v4*EA_1_10
 fit1repar<-sem(model1repar,data=twindata, estimator="ML", missing="fiml.x")
 
 
-
+#model1reb34m is the full model with equal transmission coefficient across parents for parental EA on offspring BMI (b3 and b4) in males (m)
 model1reb34m<-'
 BMI_0_1~b3m*EA_0_31+b3m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
 BMI_0_2~b3m*EA_0_31+b3m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
@@ -931,6 +937,7 @@ EA_1_10~~v4*EA_1_10
 
 fit1ree56m<-sem(model1ree56m,data=twindata, estimator="ML", missing="fiml.x")
 
+
 model1ree56f<-'
 BMI_0_1~b3m*EA_0_31+b4m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
 BMI_0_2~b3m*EA_0_31+b4m*EA_1_41+b5m*BMI_0_31+b6m*BMI_1_41
@@ -972,6 +979,7 @@ EA_1_10~~v4*EA_1_10
 
 fit1ree56f<-sem(model1ree56f,data=twindata, estimator="ML", missing="fiml.x")
 
+
 anova(fit1r,fit1repar)
 anova(fit1r,fit1ree34m)
 anova(fit1r,fit1ree34f)
@@ -983,8 +991,7 @@ anova(fit1r,fit1reb56m)
 anova(fit1r,fit1reb56f)
 
 
-
-#model5* tests gender differences across offspring after constraining all coefficients to be equal across parents
+#model5* tests gender differences across offspring after constraining coefficients to be equal across parents
 model5eb3<-'
 BMI_0_1~b3*EA_0_31+b3*EA_1_41+b5m*BMI_0_31+b5m*BMI_1_41
 BMI_0_2~b3*EA_0_31+b3*EA_1_41+b5m*BMI_0_31+b5m*BMI_1_41
@@ -1026,6 +1033,7 @@ EA_1_10~~v4*EA_1_10
 
 fit5eb3<-sem(model5eb3,data=twindata, estimator="ML", missing="fiml.x")
 
+
 model5eb5<-'
 BMI_0_1~b3m*EA_0_31+b3m*EA_1_41+b5*BMI_0_31+b5*BMI_1_41
 BMI_0_2~b3m*EA_0_31+b3m*EA_1_41+b5*BMI_0_31+b5*BMI_1_41
@@ -1066,6 +1074,7 @@ EA_1_10~~v4*EA_1_10
 '
 
 fit5eb5<-sem(model5eb5,data=twindata, estimator="ML", missing="fiml.x")
+
 
 model5ee3<-'
 BMI_0_1~b3m*EA_0_31+b3m*EA_1_41+b5m*BMI_0_31+b5m*BMI_1_41
@@ -1193,6 +1202,7 @@ EA_1_10~~v4*EA_1_10
 fit5eall<-sem(model5eall,data=twindata, estimator="ML", missing="fiml.x")
 
 
+#model comparisons for parental differences
 anova(fit1repar,fit5eall)
 anova(fit1repar,fit5eb3)
 anova(fit1repar,fit5eb5)
@@ -1258,11 +1268,10 @@ write.csv((standardizedSolution(fit6)), file = "standardized solution 6.csv")
 write.csv((parameterestimates(fit6)), file = "parameterestimates6.csv")
 write.csv((fitmeasures(fit1r)), file = "fitmeasures1r.csv")
 write.csv((fitmeasures(fit6)), file = "fitmeasures6.csv")
-write.csv((lavCor(fit1s)), file = "observed_correlation_constrained.csv")
+write.csv(inspect(fit1s, what="cor.all"), file = "observed_correlation_constrained.csv")
 write.csv((lavCor(fit1r)), file = "observed_correlation.csv")
 write.csv(inspect(fit1r, what="obs"), file = "observed-covariance.csv")
-write.csv(inspect(fit1s, what="obs"), file = "observed_covariance_constrained.csv")
-write.csv(inspect(fit1r, what="cor.all"), file = "model1_implied_correlation.csv")
+write.csv(fitted(fit1s), file = "observed_covariance_constrained.csv")
 
 # Sensitivity analysis
 
@@ -1270,8 +1279,10 @@ write.csv(inspect(fit1r, what="cor.all"), file = "model1_implied_correlation.csv
 twindatab1545 <- read.spss("EA-BMIfiltered1545.sav",to.data.frame = TRUE,use.value.labels = FALSE)
 fit1b1545<-sem(model1,data=twindatab1545, estimator="ML", missing="fiml.x")
 write.csv((parameterestimates(fit1b1545)), file = "parameterestimares1b1545.csv")
+write.csv((standardizedSolution(fit1b1545)), file = "standardized solution b1545.csv")
 
 #twindatanomz is the data frame used for sensitivity analysis of excluding individuals with BMI <15 and >45
 twindatanomz <- read.spss("EA-BMI_nomz.sav",to.data.frame = TRUE,use.value.labels = FALSE)
 fit1nomz<-sem(model1,data=twindatanomz, estimator="ML", missing="fiml.x")
 write.csv((parameterestimates(fit1nomz)), file = "parameterestimates1nomz.csv")
+write.csv((standardizedSolution(fit1nomz)), file = "standardized solution 1nomz.csv")
